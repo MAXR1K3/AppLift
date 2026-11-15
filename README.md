@@ -1,2 +1,29 @@
 # AppLift
-AppLift macOS utility — binary builds and pre-releases for Apple Silicon.
+
+原生 SwiftUI macOS 小工具。此公开仓库用于分发 AppLift 构建与发布说明，暂不包含源代码。
+
+## v0.8 · Pre-release
+
+- **平台：Apple Silicon（arm64），最低 macOS 14。** 当前验证环境为 macOS 27；不提供 Intel 构建，也不承诺已验证所有 macOS 版本。
+- **签名：ad-hoc；未使用 Developer ID 签名，未提交 Apple 公证。** 本预发布包不具备 Apple 开发者身份背书，不保证互联网下载后通过 Gatekeeper。
+- 此版本基于现有原地绕过实现重新构建，版本号为 `0.8`、构建号为 `9`。不宣称新增了未经验证的功能。
+
+在本仓库 Releases 中下载 `AppLift-0.8-macOS-arm64.zip`；使用同一发布中的 `SHA256SUMS.txt` 核对文件完整性。文件校验和不等于开发者身份认证或安全审计。
+
+## 两项独立操作
+
+1. **移除隔离属性**：对明确选择的应用移除 `com.apple.quarantine`，不重签名。默认采用当前用户权限的原地路径，可保留备份；失败不会自动升级为管理员操作。
+2. **ad-hoc 重签名**：重新执行本地 ad-hoc 代码签名，不自动移除隔离属性，也不使用任何 Developer ID 为第三方软件签名。
+
+另有显式选择的受限管理员事务模式；不是整个 AppLift 以 root 运行。请先退出目标应用和更新器，阅读确认信息及操作结果，不要在操作期间更新、移动或修改目标。
+
+## 使用与风险
+
+- 解压应用后再打开；仅在明确理解并信任来源时考虑执行。
+- macOS 可能阻止此未公证、未具备 Developer ID 身份的预发布包。有关系统检查与单个应用例外，请参阅 [Apple 官方说明](https://support.apple.com/en-us/102445)。请勿为此全局关闭 Gatekeeper、SIP 或 XProtect。
+- 移除隔离属性不证明应用安全；重签名可能破坏原签名、entitlements、钥匙串权限、插件、自校验或更新功能。
+- 默认备份位于 `~/Library/Application Support/AppLift/Backups/`。受限管理员模式的保留对象位置以操作结果为准；失败时不要删除备份或直接覆盖原件。
+- 不保证目标软件一定可运行，不提供商业授权绕过，不自动启动目标应用。
+- 本包是预发布版本，建议先对自行创建的测试应用验证，不要直接处理唯一副本。
+
+本仓库不包含密码、私钥、钥匙串文件、恢复资料、本地诊断日志或第三方应用备份。公开发布不表示自动授予源代码或二进制的开源许可。
